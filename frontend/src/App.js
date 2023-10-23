@@ -15,7 +15,7 @@ function App() {
     <Navbar className='navbar-expand-lg navbar-light shadow-sm bg-white'>
       <Container>
         <Navbar.Brand href="/">
-          Hexlet chat
+          Hexlet Chat
         </Navbar.Brand>
       </Container>
     </Navbar>

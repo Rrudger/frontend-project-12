@@ -31,7 +31,7 @@ useEffect(() => {
           <Card className='shadow-sm'>
             <Card.Body as={Row} className='p-5'>
               <Col className='col-12 col-md-6 d-flex justify-content-center align-content-center'>
-                <Image src="/assets/avatar.jpg" className='rounded-circle' alt='Войти'/>
+                <Image src="/assets/avatar.jpg" id='mainPageImage' className='align-self-center rounded-circle' alt='Войти'/>
               </Col>
               <Col className='col-12 col-md-6 mt-3 mt-mb-0'>
               <h1 className='mb-4 text-center'>Войти</h1>
