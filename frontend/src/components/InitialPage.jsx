@@ -1,28 +1,77 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Row,
   Col,
   Card,
   Image,
-  Button,
   FloatingLabel,
+  Form,
+  Button,
+  Toast,
 } from 'react-bootstrap';
-import { Form as BootstrapForm } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import * as yup from 'yup';
+import axios from 'axios';
 
 const InitialPage = () => {
-  const SignupSchema = Yup.object().shape({
-  login: Yup.string()
-    .min(2, 'Минимум 2 буквы')
-    .max(50, 'Максимум 50 букв'),
-  password: Yup.string(),
-});
+const schema = yup.string().required('Пожалуйста, заполните это поле.');
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const login = formData.get('login');
+  const password = formData.get('password');
+  schema.validate(login)
+    .catch(error => {
+      document.getElementById('loginInput').focus();
+      setFocus('login');
+      setError(error.message);
+    })
+    .then((result) => {
+      if (result ) {
+        setError(null);
+        schema.validate(password)
+        .catch(error => {
+          document.getElementById('passwordInput').focus();
+          setFocus('password');
+          setError(error.message);
+        })
+        .then((result) => {
+          if (result) {
+            setError(null);
+            axios.post('/api/v1/login', { username: login, password: password })
+            .then((response) => {
+              localStorage.setItem('token', response.data.token);
+              localStorage.setItem('login', login);
+              window.open('/', '_self');
+            })
+            .catch(() => {
+              setErrorForm('error')
+            })
+
+        }
+        })
+      }
+    })
+  }
+
+
+
 
 useEffect(() => {
- const inputEl = document.getElementById('loginInput');
- inputEl.focus()
+  document.getElementById(`loginInput`).focus();
+ document.addEventListener("click", function () {
+  if (focus) setFocus(null);
+});
 }, []);
+
+const [error, setError] = useState(null);
+const [focus, setFocus] = useState('login');
+const [errorForm, setErrorForm] = useState(null);
+
+const showError = (field) => {
+  return !error ? false : focus !== field ? false : true;
+}
+
 
   return (
     <div className='container-fluid h-100'>
@@ -35,34 +84,37 @@ useEffect(() => {
               </Col>
               <Col className='col-12 col-md-6 mt-3 mt-mb-0'>
               <h1 className='mb-4 text-center'>Войти</h1>
-              <Formik
-                initialValues={{
-                  login: '',
-                  password: '',
-                }}
-                validationSchema={SignupSchema}
-                onSubmit={ (values) => {
-                  console.log(values);
-                }}
-                >
-                {({ errors, touched }) => (
-                  <Form as={BootstrapForm}>
-                  <FloatingLabel controlId="loginInput" label="Ваш ник" className="mb-3" autoFocus>
-                  <Field as={BootstrapForm.Control} name='login' placeholder='Ваш ник'/>
-            {errors.login && touched.login ? (
-                    <div>{errors.login}</div>
-                  ) : null}
-                  </FloatingLabel>
 
-                  <FloatingLabel controlId="passwordInput" label="Пароль" className="mb-3">
-                  <Field as={BootstrapForm.Control} name="password" placeholder='Пароль'/>
-                  {errors.password && touched.password ? <div>{errors.password}</div> : null}
-                  </FloatingLabel>
+              <Form onSubmit={handleSubmit}>
 
-                  <Button variant='outline-primary' className='w-100 mb-3' type="submit">Войти</Button>
-                  </Form>
-                )}
-                </Formik>
+                <FloatingLabel controlId="loginInput"
+                label="Ваш ник"
+                className="mb-3">
+                <Form.Control onChange={() => {if(focus) setFocus(null)}} name='login' className={errorForm && 'is-invalid'} placeholder="" />
+                { showError('login') &&
+                <Toast className='d-inline-flex position-fixed z-3 border border-danger'>
+                  <Toast.Body>{error}</Toast.Body>
+                </Toast>}
+              </FloatingLabel>
+
+              <FloatingLabel controlId="passwordInput"
+              label="Пароль"
+              className="mb-4">
+              <Form.Control onChange={() => {if(focus) setFocus(null)}} name='password' className={errorForm && 'is-invalid'} placeholder="" />
+              { showError('password') &&
+              <Toast className='d-inline-flex position-fixed z-3 border border-danger'>
+                <Toast.Body>{error}</Toast.Body>
+              </Toast>}
+              { errorForm &&
+              <Toast className='d-inline-flex position-fixed z-3 text-white bg-danger border border-danger'>
+                <Toast.Body>Неверные имя пользователя или пароль</Toast.Body>
+              </Toast>}
+            </FloatingLabel>
+
+      <Button variant="outline-primary" className='mb-3 w-100' type="submit">
+        Войти
+      </Button>
+    </Form>
               </Col>
             </Card.Body>
             <Card.Footer className='p-4'>
