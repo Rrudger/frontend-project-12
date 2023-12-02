@@ -53,7 +53,11 @@ const ChatPage = () => {
   });
 }
   yup.addMethod(yup.string, "customValidator", customValidator);
-  const schema = yup.string().required('Обязательное поле').customValidator('Должно быть уникальным');
+  const schema = yup.string()
+    .required('Обязательное поле')
+    .customValidator('Должно быть уникальным')
+    .min(3, 'От 3 до 20 символов')
+    .max(20, 'От 3 до 20 символов');
 
 
   const [showModal, setShowModal] = useState(false);

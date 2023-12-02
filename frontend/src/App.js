@@ -3,6 +3,7 @@ import React, { useState }from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Page404 from './components/Page404.jsx';
+import SingupPage from './components/SingupPage.jsx';
 import InitialPage from './components/InitialPage.jsx';
 import LoginContext from './contexts';
 import Chat from './components/Chat.jsx';
@@ -47,7 +48,8 @@ function App() {
       <Routes>
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Chat />} />
-        <Route path="login" element={<InitialPage />} />
+        <Route path="/login" element={<InitialPage />} />
+        <Route path='/signup' element={< SingupPage />} />
       </Routes>
     </BrowserRouter>
 

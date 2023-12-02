@@ -21,7 +21,6 @@ const Chat = () => {
 .then((response) => {
   //console.log(response.data)
   dispatch(globalActions.setStorage(response.data));
-
 })
 .catch(() => console.log(`error`));
    } else {

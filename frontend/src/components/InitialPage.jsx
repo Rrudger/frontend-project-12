@@ -76,7 +76,7 @@ const showError = (field) => {
   return (
     <div className='container-fluid h-100'>
       <Row className='justify-content-center align-content-center h-100'>
-        <Col className='mt-5 col-12 col-md-8 col-xxl-6'>
+        <Col className='col-12 col-md-8 col-xxl-6'>
           <Card className='shadow-sm'>
             <Card.Body as={Row} className='p-5'>
               <Col className='col-12 col-md-6 d-flex justify-content-center align-content-center'>
@@ -119,8 +119,8 @@ const showError = (field) => {
             </Card.Body>
             <Card.Footer className='p-4'>
               <div className='text-center'>
-                <span>Нет аккаунта?</span>
-                <span> Регистрация</span>
+                <span>Нет аккаунта? </span>
+                <a href="/signup">Регистрация</a>
               </div>
             </Card.Footer>
           </Card>
