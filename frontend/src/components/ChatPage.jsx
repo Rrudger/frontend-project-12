@@ -18,8 +18,12 @@ import * as yup from 'yup';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { actions as globalActions } from '../slices/globalSlice.js';
+import i18n from '../i18n';
+
 
 const ChatPage = () => {
+
+
   const dispatch = useDispatch();
   const data = useSelector((state) => state.globalState);
   const messages = useSelector((state) => state.globalState.messages).filter((message) => message.channelId === data.currentChannelId)
@@ -28,23 +32,7 @@ const ChatPage = () => {
 
   const socket = io();
   const login = localStorage.getItem('login');
-  const messageText = (numMessages) => {
-    const num = numMessages > 20 ? numMessages % 10 : numMessages;
-    let text = '';
-    switch(num) {
-      case 1:
-        text = 'сообщение';
-        break;
-      case 2:
-      case 3:
-      case 4:
-        text = 'сообщения';
-        break;
-      default:
-        text = 'сообщений';
-    }
-    return text;
-  };
+
 
   function customValidator(message) {
     return this.test("customValidator", message, function (value) {
@@ -54,10 +42,10 @@ const ChatPage = () => {
 }
   yup.addMethod(yup.string, "customValidator", customValidator);
   const schema = yup.string()
-    .required('Обязательное поле')
-    .customValidator('Должно быть уникальным')
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов');
+    .required(i18n.t('toasts.requiredField'))
+    .customValidator(i18n.t('toasts.unique'))
+    .min(3, i18n.t('toasts.min3characters'))
+    .max(20, i18n.t('toasts.min3characters'));
 
 
   const [showModal, setShowModal] = useState(false);
@@ -96,8 +84,12 @@ const handleSubmitMessage = (e) => {
   e.preventDefault();
   const inputData = new FormData(e.target);
   setDisabled(true);
-  socket.emit('newMessage', { body: inputData.get('message'), channelId: data.currentChannelId, username: login });
-   e.target.reset();
+  const message = inputData.get('message');
+  if (message.length !== 0) {
+    socket.emit('newMessage', { body: message, channelId: data.currentChannelId, username: login });
+     e.target.reset();
+  }
+
   //location.reload();
 };
 const handleAddChannel = (e) => {
@@ -112,7 +104,7 @@ const handleAddChannel = (e) => {
         setError(null);
         socket.emit('newChannel', { name: result });
         handleCloseModal();
-        callToast('Канал создан');
+        callToast(i18n.t('toasts.channelCreated'));
       }
     })
 };
@@ -121,7 +113,7 @@ const handleDeleteChannel = (id) => (e) => {
   e.preventDefault();
   socket.emit('removeChannel', { id: id });
   handleCloseModal();
-  callToast('Канал удален');
+  callToast(i18n.t('toasts.channelDeleted'));
 };
 
 const handleRenameChannel = (id) => (e) => {
@@ -136,7 +128,7 @@ const handleRenameChannel = (id) => (e) => {
         setError(null);
         socket.emit('renameChannel', { id: id, name: result });
         handleCloseModal();
-        callToast('Канал переименован');
+        callToast(i18n.t('toasts.channelRenamed'));
       }
     })
 }
@@ -149,7 +141,7 @@ useEffect(() => {
     <Row className='h-100 bg-white flex-md-row'>
       <Col className='col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex'>
         <div className='d-flex mt-1 mb-2 ps-4 pe-2 p-4 justify-content-between'>
-          <b>Каналы</b>
+          <b>{i18n.t('headers.channels')}</b>
           <Button onClick={handleShowModal('addMode')} variant='outline-primary' className='btn-hover-primary rounded-1 align-items-center justify-content-center align-self-center d-flex p-0' style={{width: '20px', height: '20px'}}>+</Button>
         </div>
         <Nav as={'ul'} id='channel-box' variant='pills' className='nav-fill flex-column px-2 mb-3 overflow-auto h-100 d-block'>
@@ -181,7 +173,7 @@ useEffect(() => {
             <p className='m-0'>
               {data.currentChannelId && <b>{`# ${currentChannel.name}`}</b>}
             </p>
-            <span className='text-muted'>{messages.length} {messageText(messages.length)}</span>
+            <span className='text-muted'>{i18n.t('other.message', {count: messages.length})}</span>
           </div>
           <div id='messages-box' className='overflow-auto px-5'>
             {messages.length !==0 && messages.map((message) => (
@@ -193,7 +185,7 @@ useEffect(() => {
           <div className='mt-auto px-5 py-3'>
             <Form onSubmit={handleSubmitMessage} className='py-1 border rounded-2'>
               <InputGroup>
-                <Form.Control onChange={handleInputChange} id='input' name='message' className='border-0 p-2 ps-2 me-2' placeholder="Введите сообщение" />
+                <Form.Control onChange={handleInputChange} id='input' name='message' className='border-0 p-2 ps-2 me-2' placeholder={i18n.t('other.messageField')} />
                 <Button className={btnClasses} type='submit'>
                   <Image src="/assets/arrow-right-square.svg" id='sendMessageSvg' />
                 </Button>
@@ -207,13 +199,13 @@ useEffect(() => {
       centered show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>
-          {modalMode === 'addMode' ? 'Добавить канал' : modalMode === 'renameMode' ? 'Переименовать канал' : 'Удалить канал'}
+          {modalMode === 'addMode' ? i18n.t('headers.add') : modalMode === 'renameMode' ? i18n.t('headers.rename') : i18n.t('headers.delete')}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form onSubmit={modalMode === 'addMode' ? handleAddChannel : modalMode === 'renameMode' ? handleRenameChannel(modalId) : handleDeleteChannel(modalId)}>
           {modalMode === 'deleteMode' ?
-            <p>Уверены?</p>
+            <p>{i18n.t('headers.sure')}</p>
            : <>
            <InputGroup>
             <Form.Control id='modalInput' name='newValue' className={error ? 'mb-2 is-invalid' : 'mb-2'} placeholder={modalMode === 'renameMode' ? currentChannel.name : ''}/>
@@ -223,10 +215,10 @@ useEffect(() => {
         }
           <div className='d-flex justify-content-end'>
           <Button variant="secondary" onClick={handleCloseModal} className='me-2'>
-            Отменить
+            {i18n.t('buttons.close')}
           </Button>
           <Button type='submit' variant={modalMode === 'deleteMode' ? 'danger' : "primary"}>
-            Отправить
+            {i18n.t('buttons.save')}
           </Button>
           </div>
         </Form>

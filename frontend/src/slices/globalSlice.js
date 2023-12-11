@@ -1,5 +1,4 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-//import _ from 'lodash';
 
 const globalAdapter = createEntityAdapter();
 const initialState = {

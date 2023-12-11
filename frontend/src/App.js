@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState }from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Page404 from './components/Page404.jsx';
 import SingupPage from './components/SingupPage.jsx';
@@ -10,8 +10,9 @@ import Chat from './components/Chat.jsx';
 import NavbarHeader from './components/Navbar.jsx';
 import { io } from 'socket.io-client';
 import { actions as globalActions } from './slices/globalSlice.js';
+//import i18n from './i18n';
 
-function App() {
+const App = () => {
   const LoginProvider = ({ children }) => {
   const [login, setLogin] = useState(10);
 
@@ -20,7 +21,16 @@ function App() {
       {children}
     </LoginContext.Provider>
   );
-}
+};
+
+const lang = useSelector((state) => state.langState.language);
+//console.log(lang);
+//console.log(i18n.language)
+  useEffect(() => {
+
+  }, [lang]);
+
+
 
   const dispatch = useDispatch();
   const socket = io();

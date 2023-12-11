@@ -6,9 +6,9 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './slices/index.js';
 import reportWebVitals from './reportWebVitals';
+//import i18n from './i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 root.render(
   <Provider store={store}>
     <App />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+//import { useSelector } from 'react-redux';
 import {
   Row,
   Col,
@@ -12,9 +13,12 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import i18n from '../i18n';
 
 
 const SingupPage = () => {
+
+
   const [formError, setFormError] = useState(null);
   useEffect(() => {
     document.getElementById(`loginInput`).focus();
@@ -52,13 +56,13 @@ const SingupPage = () => {
     },
     validationSchema: yup.object().shape({
     login: yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .required('Обязательное поле'),
+      .min(3, i18n.t('toasts.min3characters'))
+      .max(20, i18n.t('toasts.min3characters'))
+      .required(i18n.t('toasts.requiredField')),
     password: yup.string()
-      .min(6, 'Не менее 6 символов')
-      .required('Обязательное поле'),
-    repeatPassword: yup.string().repeatPassword('Пароли должны совпадать'),
+      .min(6, i18n.t('toasts.min6characters'))
+      .required(i18n.t('toasts.requiredField')),
+    repeatPassword: yup.string().repeatPassword(i18n.t('toasts.passwordsMatch')),
   }),
     onSubmit: values => {
       submitNewUser(values)
@@ -86,10 +90,10 @@ const SingupPage = () => {
               </Col>
 
               <Form onSubmit={formik.handleSubmit} className='w-50 me-5'>
-                <h1 className='mb-5 text-center'>Регистрация</h1>
+                <h1 className='mb-5 text-center'>{i18n.t('headers.createAccount')}</h1>
 
                 <FloatingLabel controlId="loginInput"
-                  label="Имя пользователя"
+                  label={i18n.t('other.userName')}
                   className="mb-0">
                   <Form.Control
                     name='login'
@@ -106,7 +110,7 @@ const SingupPage = () => {
                  : null}
 
                 <FloatingLabel controlId="passwordInput"
-                  label="Пароль"
+                  label={i18n.t('other.password')}
                   className="mt-3">
                   <Form.Control
                     name='password'
@@ -124,7 +128,7 @@ const SingupPage = () => {
 
 
                 <FloatingLabel controlId="repeatPasswordInput"
-                  label="Повтор пароля"
+                  label={i18n.t('other.repeatPassword')}
                   className="mt-3">
                   <Form.Control
                     name='repeatPassword'
@@ -144,7 +148,7 @@ const SingupPage = () => {
                 }
 
                 <Button variant="outline-primary" className='mb-3 mt-4 w-100' type="submit">
-                  Зарегистрироваться
+                  {i18n.t('buttons.createAccount')}
                 </Button>
               </Form>
 

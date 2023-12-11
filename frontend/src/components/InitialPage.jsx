@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+//import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Row,
   Col,
@@ -11,8 +13,13 @@ import {
 } from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from 'axios';
+import i18n from '../i18n';
+import { actions as langActions } from '../slices/lang.js';
 
 const InitialPage = () => {
+  const dispatch = useDispatch();
+
+
 const schema = yup.string().required('Пожалуйста, заполните это поле.');
 
 const handleSubmit = async (e) => {
@@ -42,6 +49,8 @@ const handleSubmit = async (e) => {
             .then((response) => {
               localStorage.setItem('token', response.data.token);
               localStorage.setItem('login', login);
+              localStorage.setItem('lang', 'ru');
+              dispatch(langActions.setLanguage('ru'));
               window.open('/', '_self');
             })
             .catch(() => {
@@ -80,15 +89,15 @@ const showError = (field) => {
           <Card className='shadow-sm'>
             <Card.Body as={Row} className='p-5'>
               <Col className='col-12 col-md-6 d-flex justify-content-center align-content-center'>
-                <Image src="/assets/avatar.jpg" id='mainPageImage' className='align-self-center rounded-circle' alt='Войти'/>
+                <Image src="/assets/avatar.jpg" id='mainPageImage' className='align-self-center rounded-circle' alt={i18n.t('headers.logIn')}/>
               </Col>
               <Col className='col-12 col-md-6 mt-3 mt-mb-0'>
-              <h1 className='mb-4 text-center'>Войти</h1>
+              <h1 className='mb-4 text-center'>{i18n.t('headers.logIn')}</h1>
 
               <Form onSubmit={handleSubmit}>
 
                 <FloatingLabel controlId="loginInput"
-                label="Ваш ник"
+                label={i18n.t('other.login')}
                 className="mb-3">
                 <Form.Control onChange={() => {if(focus) setFocus(null)}} name='login' className={errorForm && 'is-invalid'} placeholder="" />
                 { showError('login') &&
@@ -98,7 +107,7 @@ const showError = (field) => {
               </FloatingLabel>
 
               <FloatingLabel controlId="passwordInput"
-              label="Пароль"
+              label={i18n.t('other.password')}
               className="mb-4">
               <Form.Control onChange={() => {if(focus) setFocus(null)}} name='password' className={errorForm && 'is-invalid'} placeholder="" />
               { showError('password') &&
@@ -107,20 +116,20 @@ const showError = (field) => {
               </Toast>}
               { errorForm &&
               <Toast className='d-inline-flex position-fixed z-3 text-white bg-danger border border-danger'>
-                <Toast.Body>Неверные имя пользователя или пароль</Toast.Body>
+                <Toast.Body>{i18n.t('toasts.wrongUserData')}</Toast.Body>
               </Toast>}
             </FloatingLabel>
 
       <Button variant="outline-primary" className='mb-3 w-100' type="submit">
-        Войти
+        {i18n.t('buttons.logIn')}
       </Button>
     </Form>
               </Col>
             </Card.Body>
             <Card.Footer className='p-4'>
               <div className='text-center'>
-                <span>Нет аккаунта? </span>
-                <a href="/signup">Регистрация</a>
+                <span>{i18n.t('other.createAcc1')}</span>
+                <a href="/signup">{i18n.t('other.createAcc2')}</a>
               </div>
             </Card.Footer>
           </Card>
