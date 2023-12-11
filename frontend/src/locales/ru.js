@@ -20,6 +20,7 @@ export default {
       channelCreated: 'Канал создан',
       channelDeleted: 'Канал удален',
       channelRenamed: 'Канал переименован',
+      netError: 'Ошибка соединения',
     },
     buttons: {
       logIn: 'Войти',

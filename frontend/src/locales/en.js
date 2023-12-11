@@ -20,6 +20,7 @@ export default {
       channelCreated: 'Channel created',
       channelDeleted: 'Channel deleted',
       channelRenamed: 'Channel renamed',
+      netError: 'Network error',
     },
     buttons: {
       logIn: 'Log in',

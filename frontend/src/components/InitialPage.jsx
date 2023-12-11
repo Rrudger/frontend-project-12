@@ -14,13 +14,20 @@ import {
 import * as yup from 'yup';
 import axios from 'axios';
 import i18n from '../i18n';
+import { toast, ToastContainer } from 'react-toastify';
 import { actions as langActions } from '../slices/lang.js';
 
 const InitialPage = () => {
   const dispatch = useDispatch();
+  const callToast = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+    })
+  }
 
 
-const schema = yup.string().required('Пожалуйста, заполните это поле.');
+const schema = yup.string().required(i18n.t('toasts.fillField'));
+
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -53,8 +60,15 @@ const handleSubmit = async (e) => {
               dispatch(langActions.setLanguage('ru'));
               window.open('/', '_self');
             })
-            .catch(() => {
-              setErrorForm('error')
+            .catch((error) => {
+              if (error.response.status === 401) {
+                setErrorForm('wrongUserData');
+              } else {
+                setError(null)
+                setErrorForm('netError');
+                callToast(i18n.t('toasts.netError'));
+              }
+
             })
 
         }
@@ -99,7 +113,7 @@ const showError = (field) => {
                 <FloatingLabel controlId="loginInput"
                 label={i18n.t('other.login')}
                 className="mb-3">
-                <Form.Control onChange={() => {if(focus) setFocus(null)}} name='login' className={errorForm && 'is-invalid'} placeholder="" />
+                <Form.Control onChange={() => {if(focus) setFocus(null)}} name='login' className={(errorForm && errorForm === 'wrongUserData') && 'is-invalid'} placeholder="" />
                 { showError('login') &&
                 <Toast className='d-inline-flex position-fixed z-3 border border-danger'>
                   <Toast.Body>{error}</Toast.Body>
@@ -109,12 +123,12 @@ const showError = (field) => {
               <FloatingLabel controlId="passwordInput"
               label={i18n.t('other.password')}
               className="mb-4">
-              <Form.Control onChange={() => {if(focus) setFocus(null)}} name='password' className={errorForm && 'is-invalid'} placeholder="" />
+              <Form.Control onChange={() => {if(focus) setFocus(null)}} name='password' className={(errorForm && errorForm === 'wrongUserData') && 'is-invalid'} placeholder="" />
               { showError('password') &&
               <Toast className='d-inline-flex position-fixed z-3 border border-danger'>
                 <Toast.Body>{error}</Toast.Body>
               </Toast>}
-              { errorForm &&
+              { (errorForm && errorForm === 'wrongUserData') &&
               <Toast className='d-inline-flex position-fixed z-3 text-white bg-danger border border-danger'>
                 <Toast.Body>{i18n.t('toasts.wrongUserData')}</Toast.Body>
               </Toast>}
@@ -135,6 +149,8 @@ const showError = (field) => {
           </Card>
         </Col>
       </Row>
+
+      <ToastContainer />
     </div>
 
   )
