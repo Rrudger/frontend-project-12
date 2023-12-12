@@ -19,10 +19,12 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { actions as globalActions } from '../slices/globalSlice.js';
 import i18n from '../i18n';
+import filter from 'leo-profanity';
 
 
 const ChatPage = () => {
-
+    filter.loadDictionary('en');
+    filter.add(filter.getDictionary('ru'));
 
   const dispatch = useDispatch();
   const data = useSelector((state) => state.globalState);
@@ -84,7 +86,7 @@ const handleSubmitMessage = (e) => {
   e.preventDefault();
   const inputData = new FormData(e.target);
   setDisabled(true);
-  const message = inputData.get('message');
+  const message = filter.clean(inputData.get('message'));
   if (message.length !== 0) {
     socket.emit('newMessage', { body: message, channelId: data.currentChannelId, username: login });
      e.target.reset();
