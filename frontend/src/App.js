@@ -12,6 +12,7 @@ import { io } from 'socket.io-client';
 import { actions as globalActions } from './slices/globalSlice.js';
 //import i18n from './i18n';
 
+
 const App = () => {
   const LoginProvider = ({ children }) => {
   const [login, setLogin] = useState(10);
@@ -19,6 +20,7 @@ const App = () => {
   return (
     <LoginContext.Provider value={{ login, setLogin }}>
       {children}
+      
     </LoginContext.Provider>
   );
 };

@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Rrudger/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.8"
+    "@hexlet/chat-server": "^1.1.8",
+    "eslint-plugin-functional": "^6.0.0",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }
