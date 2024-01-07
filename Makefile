@@ -3,6 +3,8 @@ lint-frontend:
 
 install:
 	npm ci
+	cd frontend
+	npm ci
 
 build:
 	cd frontend
