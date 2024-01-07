@@ -8,6 +8,10 @@ build:
 	cd frontend
 	npm run build
 
+start:
+	cd frontend
+	npm run start
+
 start-frontend:
 	make -C frontend start
 
