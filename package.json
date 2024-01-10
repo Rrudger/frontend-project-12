@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix frontend",
-   "start": "npm run start --prefix frontend",
-   "test": "echo \"Error: no test specified\" && exit 1",
-   "postinstall": "cd frontend && npm ci"
+    "start": "npm run start --prefix frontend",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm ci"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "dependencies": {
     "@hexlet/chat-server": "^1.1.8",
     "eslint-plugin-functional": "^6.0.0",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react-scripts": "^5.0.1"
   }
 }
