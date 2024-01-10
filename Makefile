@@ -4,6 +4,9 @@ install:
 start-frontend:
 	npm run start
 
+lint:
+	npm run eslint .
+
 build:
 	npm run build
 
