@@ -1,7 +1,7 @@
 export default {
   translation: {
     headers: {
-      logIn: 'Log in',
+      logIn: 'Log in TEST',
       add: 'Add channel',
       delete: 'Delete channel',
       rename: 'Rename channel',

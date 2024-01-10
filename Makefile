@@ -5,16 +5,10 @@ install:
 	npm ci
 
 start-frontend:
-	make -C frontend start
-
-start-backend:
-	npx start-server
+	npm run start
 
 build:
 	npm run build
 
-deploy:
-	git push
-
 start:
-	make start-backend & make start-frontend
+	make start-frontend
