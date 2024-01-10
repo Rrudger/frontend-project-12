@@ -5,7 +5,7 @@ start-frontend:
 	npm run start
 
 lint:
-	npm run eslint .
+	npm run lint
 
 build:
 	npm run build
