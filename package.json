@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/Rrudger/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.8",
-    "react-scripts": "^5.0.1"
+    "@hexlet/chat-server": "^1.1.8"
   }
 }
