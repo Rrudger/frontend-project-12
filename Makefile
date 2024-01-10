@@ -10,6 +10,9 @@ start-frontend:
 start-backend:
 	npx start-server
 
+build:
+	npm run build
+
 deploy:
 	git push
 
