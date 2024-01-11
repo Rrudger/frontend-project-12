@@ -67,11 +67,11 @@ const handleSubmit = async (e) => {
                 setErrorForm('wrongUserData');
                 callToast(i18n.t('toasts.wrongUserData'));
 
-              } else  if (error.response.status === 500){
+              } /*else  if (error.response.status === 500){
                 setError(null)
                 setErrorForm('netError');
                 callToast(i18n.t('toasts.netError'));
-              }
+              }*/
 
             })
 
