@@ -61,14 +61,15 @@ const handleSubmit = async (e) => {
               window.open('/', '_self');
             })
             .catch((error) => {
-              console.log(error.response.statusText)
-              if (error.response.statusText === 'Unauthorized') {
-                setErrorForm('wrongUserData');
-                callToast(i18n.t('toasts.wrongUserData'));
-              } else {
+              console.log(error.response.status)
+              if (error.response.status > 500) {
                 setError(null)
                 setErrorForm('netError');
-                callToast(i18n.t('toasts.netError'));
+                callToast(i18n.t('toasts.netError'));  
+              } else {
+                setError(null)
+                setErrorForm('wrongUserData');
+                callToast(i18n.t('toasts.wrongUserData'));
               }
 
             })
