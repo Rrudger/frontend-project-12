@@ -11,4 +11,4 @@ build:
 	npm run build
 
 start:
-	make start-frontend
+	make build & make start-frontend

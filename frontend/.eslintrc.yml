@@ -15,6 +15,7 @@ parserOptions:
     jsx: true
   ecmaVersion: latest
   sourceType: module
+  requireConfigFile: false
 
 plugins:
   - react
