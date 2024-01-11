@@ -61,13 +61,13 @@ const handleSubmit = async (e) => {
               window.open('/', '_self');
             })
             .catch((error) => {
-              console.log(error.response.status)
-              if (error.response.status === 401) {
+              const err = error.toJSON().status;
+              if (err === 401) {
                 setError(null)
                 setErrorForm('wrongUserData');
                 callToast(i18n.t('toasts.wrongUserData'));
-                alert('Test')
-              } else  if (error.response.status === 500){
+
+              } else  if (err === 500){
                 setError(null)
                 setErrorForm('netError');
                 callToast(i18n.t('toasts.netError'));
@@ -75,6 +75,8 @@ const handleSubmit = async (e) => {
 
             })
 
+        } else  {
+          console.log('test')
         }
         })
       }
