@@ -51,15 +51,18 @@ const handleSubmit = async (e) => {
         })
         .then((result) => {
           if (result) {
-            alert('test')
             setError(null);
             axios.post('/api/v1/login', { username: login, password: password })
+            .then((response) => {
+              localStorage.setItem('token', response.data.token);
+              localStorage.setItem('login', login);
+              localStorage.setItem('lang', 'ru');
+              dispatch(langActions.setLanguage('ru'));
+              window.open('/', '_self');
+            })
             .catch((error) => {
               const err = error.toJSON().status;
-              setError(null)
-              setErrorForm('wrongUserData');
-              callToast(i18n.t('toasts.wrongUserData'));
-              /*if (err === 401) {
+            if (err === 401) {
                 setError(null)
                 setErrorForm('wrongUserData');
                 callToast(i18n.t('toasts.wrongUserData'));
@@ -68,15 +71,8 @@ const handleSubmit = async (e) => {
                 setError(null)
                 setErrorForm('netError');
                 callToast(i18n.t('toasts.netError'));
-              }*/
+              }
 
-            })
-            .then((response) => {
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('login', login);
-              localStorage.setItem('lang', 'ru');
-              dispatch(langActions.setLanguage('ru'));
-              window.open('/', '_self');
             })
 
 
