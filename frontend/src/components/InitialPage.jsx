@@ -62,15 +62,15 @@ const handleSubmit = async (e) => {
             })
             .catch((error) => {
               console.log(error.response.status)
-              if (error.response.status < 500) {
+              if (error.response.status === 401) {
                 setError(null)
                 setErrorForm('wrongUserData');
                 callToast(i18n.t('toasts.wrongUserData'));
 
-              } else {
+              } else  if (error.response.status === 500){
                 setError(null)
                 setErrorForm('netError');
-                callToast(i18n.t('toasts.netError'));  
+                callToast(i18n.t('toasts.netError'));
               }
 
             })
