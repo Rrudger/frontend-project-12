@@ -51,15 +51,9 @@ const handleSubmit = async (e) => {
         })
         .then((result) => {
           if (result) {
+            alert('test')
             setError(null);
             axios.post('/api/v1/login', { username: login, password: password })
-            .then((response) => {
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('login', login);
-              localStorage.setItem('lang', 'ru');
-              dispatch(langActions.setLanguage('ru'));
-              window.open('/', '_self');
-            })
             .catch((error) => {
               const err = error.toJSON().status;
               setError(null)
@@ -77,6 +71,14 @@ const handleSubmit = async (e) => {
               }*/
 
             })
+            .then((response) => {
+              localStorage.setItem('token', response.data.token);
+              localStorage.setItem('login', login);
+              localStorage.setItem('lang', 'ru');
+              dispatch(langActions.setLanguage('ru'));
+              window.open('/', '_self');
+            })
+
 
         } else  {
           console.log('test')
