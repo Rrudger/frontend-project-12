@@ -61,7 +61,8 @@ const handleSubmit = async (e) => {
               window.open('/', '_self');
             })
             .catch((error) => {
-              if (error.response.status === 401) {
+              console.log(error.response.statusText)
+              if (error.response.statusText === 'Unauthorized') {
                 setErrorForm('wrongUserData');
                 callToast(i18n.t('toasts.wrongUserData'));
               } else {
