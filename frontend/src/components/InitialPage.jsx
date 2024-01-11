@@ -62,7 +62,10 @@ const handleSubmit = async (e) => {
             })
             .catch((error) => {
               const err = error.toJSON().status;
-              if (err === 401) {
+              setError(null)
+              setErrorForm('wrongUserData');
+              callToast(i18n.t('toasts.wrongUserData'));
+              /*if (err === 401) {
                 setError(null)
                 setErrorForm('wrongUserData');
                 callToast(i18n.t('toasts.wrongUserData'));
@@ -71,7 +74,7 @@ const handleSubmit = async (e) => {
                 setError(null)
                 setErrorForm('netError');
                 callToast(i18n.t('toasts.netError'));
-              }
+              }*/
 
             })
 
