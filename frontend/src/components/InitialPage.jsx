@@ -54,6 +54,7 @@ const handleSubmit = async (e) => {
             setError(null);
             axios.post('/api/v1/login', { username: login, password: password })
             .then((response) => {
+              console.log(response)
               localStorage.setItem('token', response.data.token);
               localStorage.setItem('login', login);
               localStorage.setItem('lang', 'ru');
@@ -71,8 +72,7 @@ const handleSubmit = async (e) => {
                 setError(null)
                 setErrorForm('netError');
                 callToast(i18n.t('toasts.netError'));
-                setErrorForm('wrongUserData');
-                callToast(i18n.t('toasts.wrongUserData'));
+
               }
 
             })
