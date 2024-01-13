@@ -13,11 +13,5 @@ start-backend:
 deploy:
 	git push heroku main
 
-build:
-	npm run build
-
-run:
-	npm run build & npm run start  & npm run run
-
 start:
-	npm run start
+	make start-backend & make start-frontend
