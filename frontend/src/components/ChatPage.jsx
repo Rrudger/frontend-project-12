@@ -187,7 +187,7 @@ useEffect(() => {
           <div className='mt-auto px-5 py-3'>
             <Form onSubmit={handleSubmitMessage} className='py-1 border rounded-2'>
               <InputGroup>
-                <Form.Control onChange={handleInputChange} id='input' name='message' className='border-0 p-2 ps-2 me-2' placeholder={i18n.t('other.messageField')} />
+                <Form.Control onChange={handleInputChange} id='input' area-label={i18n.t('other.messageField')} name='message' className='border-0 p-2 ps-2 me-2' placeholder={i18n.t('other.messageField')} />
                 <Button className={btnClasses} type='submit'>
                   <Image src="/assets/arrow-right-square.svg" id='sendMessageSvg' />
                 </Button>
