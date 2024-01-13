@@ -39,6 +39,7 @@ export default {
       password: 'Password',
       repeatPassword: 'Repeat password',
       messageField: 'Message',
+      messageFieldLabel: 'New message',
       message_one: '{{count}} message',
       message_other: '{{count}} messages',
     },

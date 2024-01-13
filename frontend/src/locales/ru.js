@@ -39,6 +39,7 @@ export default {
       password: 'Пароль',
       repeatPassword: 'Подтвердите пароль',
       messageField: 'Введите сообщение',
+      messageFieldLabel: 'Новое сообщеие',
       message_one: '{{count}} сообщение',
       message_few: '{{count}} сообщения',
       message_many: '{{count}} сообщений',
