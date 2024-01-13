@@ -5,7 +5,7 @@ install:
 	npm install
 
 start-frontend:
-	make -C frontend start
+	npm run start
 
 start-backend:
 	npx start-server
