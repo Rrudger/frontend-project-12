@@ -18,7 +18,7 @@ export default {
       wrongUserData: 'Неверные имя пользователя или пароль',
       fillField: 'Пожалуйста, заполните это поле.',
       channelCreated: 'Канал создан',
-      channelDeleted: 'Канал удален',
+      channelDeleted: 'Канал удалён',
       channelRenamed: 'Канал переименован',
       netError: 'Ошибка соединения',
     },
