@@ -159,8 +159,9 @@ useEffect(() => {
                 <span className='me-1'>#</span>
                 {channel.name}
               </Button>
-              <label for="channelControl" class="visually-hidden">{i18n.t('other.channelControlLabel')}</label>
+
               <Dropdown.Toggle id='channelControl' split variant={channel.id === data.currentChannelId && 'secondary'} />
+              <span class="visually-hidden">{i18n.t('other.channelControlLabel')}</span>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={handleShowModal('deleteMode', channel.id)}>Удалить</Dropdown.Item>
                   <Dropdown.Item onClick={handleShowModal('renameMode', channel.id)}>Переименовать</Dropdown.Item>
