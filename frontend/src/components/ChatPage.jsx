@@ -104,7 +104,7 @@ const handleAddChannel = (e) => {
     .then((result) => {
       if (result ) {
         setError(null);
-        socket.emit('newChannel', { name: result });
+        socket.emit('newChannel', { name: filter.clean(result)});
         handleCloseModal();
         callToast(i18n.t('toasts.channelCreated'));
       }
