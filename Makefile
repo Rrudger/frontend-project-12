@@ -15,3 +15,6 @@ build:
 
 start:
 	make start-backend & make start-frontend
+
+run-app:
+	make buid & make start
