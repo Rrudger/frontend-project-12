@@ -41,6 +41,7 @@ export default {
       repeatPassword: 'Repeat password',
       messageField: 'Message',
       messageFieldLabel: 'New message',
+      channelControlLabel: 'Channel control',
       message_one: '{{count}} message',
       message_other: '{{count}} messages',
     },

@@ -41,6 +41,7 @@ export default {
       repeatPassword: 'Подтвердите пароль',
       messageField: 'Введите сообщение',
       messageFieldLabel: 'Новое сообщение',
+      channelControlLabel: 'Управление каналом',
       message_one: '{{count}} сообщение',
       message_few: '{{count}} сообщения',
       message_many: '{{count}} сообщений',
