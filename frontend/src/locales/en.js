@@ -36,6 +36,7 @@ export default {
       createAcc2: 'Create an account',
       login: 'Login',
       userName: 'User name',
+      channelName: 'Channel name',
       password: 'Password',
       repeatPassword: 'Repeat password',
       messageField: 'Message',

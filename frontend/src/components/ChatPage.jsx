@@ -210,6 +210,7 @@ useEffect(() => {
             <p>{i18n.t('headers.sure')}</p>
            : <>
            <InputGroup>
+            <label for="modalInput" class="visually-hidden">{i18n.t('other.channelName')}</label>
             <Form.Control id='modalInput' name='newValue' className={error ? 'mb-2 is-invalid' : 'mb-2'} placeholder={modalMode === 'renameMode' ? currentChannel.name : ''}/>
           </InputGroup>
           { error && <div className='fs-6 text-danger'>{error}</div>}

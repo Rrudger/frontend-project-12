@@ -36,6 +36,7 @@ export default {
       createAcc2: 'Регистрация',
       login: 'Ваш ник',
       userName: 'Имя пользователя',
+      channelName: 'Имя канала',
       password: 'Пароль',
       repeatPassword: 'Подтвердите пароль',
       messageField: 'Введите сообщение',
