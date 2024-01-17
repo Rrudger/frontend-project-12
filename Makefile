@@ -16,5 +16,5 @@ build:
 start:
 	make start-backend & make start-frontend
 
-run-app:
-	make buid & make start
+run:
+	make build & make start & npx start-server
