@@ -155,7 +155,7 @@ useEffect(() => {
               <span className='me-1'>#</span>
               {channel.name}
             </Button>) : (
-            <Dropdown  className='w-100 rounded-0 text-start'  as={ButtonGroup}>
+            <Dropdown  className='w-100 rounded-0 text-truncate text-start'  as={ButtonGroup}>
               <Button onClick={() => setCurrentId(channel.id)} className='w-100 rounded-0 text-start' variant={channel.id === data.currentChannelId && 'secondary'}>
                 <span className='me-1'>#</span>
                 {channel.name}
