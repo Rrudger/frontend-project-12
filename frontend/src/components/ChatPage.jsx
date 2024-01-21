@@ -31,9 +31,10 @@ const ChatPage = () => {
   const messages = useSelector((state) => state.globalState.messages).filter((message) => message.channelId === data.currentChannelId)
   const channels = useSelector((state) => state.globalState.channels).map((channel) => channel.name);
   const currentChannel = data.channels.filter((channel) => channel.id === data.currentChannelId)[0];
+  const login = useSelector((state) => state.globalState.currentUser);
 
   const socket = io();
-  const login = localStorage.getItem('login');
+
 
 
   function customValidator(message) {

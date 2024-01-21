@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 //import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import {
@@ -16,8 +16,14 @@ import axios from 'axios';
 import i18n from '../i18n';
 import { toast, ToastContainer } from 'react-toastify';
 import { actions as langActions } from '../slices/lang.js';
+import LoginContext from './../contexts';
 
 const InitialPage = () => {
+   const { login, setLogin } = useContext(LoginContext);
+   //console.log(login);
+
+   //console.log(login)
+
   const dispatch = useDispatch();
   const callToast = (message) => {
     toast.error(message, {
@@ -54,10 +60,12 @@ const handleSubmit = async (e) => {
             setError(null);
             axios.post('/api/v1/login', { username: login, password: password })
             .then((response) => {
-              console.log(response)
+              //console.log(response)
               localStorage.setItem('token', response.data.token);
-              localStorage.setItem('login', login);
+              localStorage.setItem('user', login);
               localStorage.setItem('lang', 'ru');
+              setLogin(login);
+
               dispatch(langActions.setLanguage('ru'));
               window.open('/', '_self');
             })
@@ -79,7 +87,7 @@ const handleSubmit = async (e) => {
 
 
         } else  {
-          console.log('test')
+          console.log('odd error')
         }
         })
       }
@@ -103,6 +111,8 @@ const [errorForm, setErrorForm] = useState(null);
 const showError = (field) => {
   return !error ? false : focus !== field ? false : true;
 }
+
+
 
 
   return (

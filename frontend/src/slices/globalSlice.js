@@ -5,6 +5,7 @@ const initialState = {
   channels: [],
   messages: [],
   currentChannelId: null,
+  currentUser: null,
 }
 
 const globalReducer = createSlice({
@@ -19,6 +20,9 @@ const globalReducer = createSlice({
     },
     setCurrentChannel: (state, { payload }) => {
       state.currentChannelId = payload;
+    },
+    setCurrentUser: (state, { payload }) => {
+      state.currentUser = payload;
     },
     addMessage: (state, { payload }) => {
       state.messages = [...state.messages, payload]

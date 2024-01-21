@@ -15,12 +15,12 @@ import { actions as globalActions } from './slices/globalSlice.js';
 
 const App = () => {
   const LoginProvider = ({ children }) => {
-  const [login, setLogin] = useState(10);
+  const [login, setLogin] = useState(null);
 
   return (
     <LoginContext.Provider value={{ login, setLogin }}>
       {children}
-      
+
     </LoginContext.Provider>
   );
 };
