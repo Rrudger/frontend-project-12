@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -20,20 +20,43 @@ import "react-toastify/dist/ReactToastify.css";
 import { actions as globalActions } from '../slices/globalSlice.js';
 import i18n from '../i18n';
 import filter from 'leo-profanity';
+import LoginContext from './../contexts';
 
 
 const ChatPage = () => {
+  const { count, setCount } = useContext(LoginContext);
+
     filter.loadDictionary('en');
     filter.add(filter.getDictionary('ru'));
 
   const dispatch = useDispatch();
   const data = useSelector((state) => state.globalState);
   const messages = useSelector((state) => state.globalState.messages).filter((message) => message.channelId === data.currentChannelId)
-  const channels = useSelector((state) => state.globalState.channels).map((channel) => channel.name);
+  let channels = useSelector((state) => state.globalState.channels).map((channel) => channel.name);
   const currentChannel = data.channels.filter((channel) => channel.id === data.currentChannelId)[0];
   const login = useSelector((state) => state.globalState.currentUser);
+  const lastChannelAddedBy = useSelector((state) => state.globalState.lastChannelAddedBy);
 
   const socket = io();
+
+useEffect(() => {
+
+
+      console.log(count)
+      console.log(channels.length)
+  if (channels.length !== count) {
+    if (login === lastChannelAddedBy && lastChannelAddedBy!== null) {
+      const list = document.getElementById('channel-box').children;
+      console.log(Number(list[list.length - 1].id))
+      setCurrentId(Number(list[list.length - 1].id));
+      dispatch(globalActions.setLastChannelAddedBy(null));
+    }
+  }
+      //console.log(channels)
+      //dispatch(globalActions.setCurrentChannel(list[list.length - 1].id));
+      //dispatch(globalActions.setLastChannelAddedBy(null))
+
+  })
 
 
 
@@ -107,6 +130,8 @@ const handleAddChannel = (e) => {
         setError(null);
         socket.emit('newChannel', { name: filter.clean(result)});
         handleCloseModal();
+        dispatch(globalActions.setLastChannelAddedBy(login));
+      setCount(document.getElementById('channel-box').children.length);
         callToast(i18n.t('toasts.channelCreated'));
       }
     })
@@ -149,7 +174,7 @@ useEffect(() => {
         </div>
         <Nav as={'ul'} id='channel-box' variant='pills' className='nav-fill flex-column px-2 mb-3 overflow-auto h-100 d-block'>
           {data.channels && data.channels.map((channel) => (
-          <Nav.Item as={'li'} key={channel.id} className='w-100'>
+          <Nav.Item as={'li'} key={channel.id} id={channel.id} className='w-100'>
             {!channel.removable ? (
             <Button onClick={() => setCurrentId(channel.id)} variant={channel.id === data.currentChannelId && 'secondary'} className='w-100 rounded-0 text-start'>
               <span className='me-1'>#</span>
@@ -163,7 +188,7 @@ useEffect(() => {
 
               <Dropdown.Toggle id='channelControl' split variant={channel.id === data.currentChannelId && 'secondary'} >
 
-              <span class="visually-hidden">{i18n.t('other.channelControlLabel')}</span>
+              <span className="visually-hidden">{i18n.t('other.channelControlLabel')}</span>
               </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={handleShowModal('deleteMode', channel.id)}>Удалить</Dropdown.Item>
@@ -215,7 +240,7 @@ useEffect(() => {
             <p>{i18n.t('headers.sure')}</p>
            : <>
            <InputGroup>
-            <label for="modalInput" class="visually-hidden">{i18n.t('other.channelName')}</label>
+            <label htmlFor="modalInput" className="visually-hidden">{i18n.t('other.channelName')}</label>
             <Form.Control id='modalInput' name='newValue' className={error ? 'mb-2 is-invalid' : 'mb-2'} placeholder={modalMode === 'renameMode' ? currentChannel.name : ''}/>
           </InputGroup>
           { error && <div className='fs-6 text-danger'>{error}</div>}

@@ -14,11 +14,11 @@ import { actions as globalActions } from './slices/globalSlice.js';
 
 
 const App = () => {
-  const LoginProvider = ({ children }) => {
-  const [login, setLogin] = useState(null);
+  const ContextProvider = ({ children }) => {
+  const [count, setCount] = useState(null);
 
   return (
-    <LoginContext.Provider value={{ login, setLogin }}>
+    <LoginContext.Provider value={{ count, setCount }}>
       {children}
 
     </LoginContext.Provider>
@@ -29,11 +29,10 @@ const lang = useSelector((state) => state.langState.language);
 //console.log(lang);
 //console.log(i18n.language)
   useEffect(() => {
-
   }, [lang]);
 
-
-
+  //const lastAddedChannel = useSelector((state) => state.globalState.lastChannelAddedBy);
+  //console.log(lastAddedChannel)
   const dispatch = useDispatch();
   const socket = io();
   socket.on('newMessage', (payload) => {
@@ -52,7 +51,7 @@ const lang = useSelector((state) => state.langState.language);
   });
 
   return (
-    <LoginProvider>
+    <ContextProvider>
     <div className='d-flex flex-column h-100'>
     <NavbarHeader />
 
@@ -66,7 +65,7 @@ const lang = useSelector((state) => state.langState.language);
     </BrowserRouter>
 
     </div>
-    </LoginProvider>
+    </ContextProvider>
   );
 }
 

@@ -16,13 +16,10 @@ import axios from 'axios';
 import i18n from '../i18n';
 import { toast, ToastContainer } from 'react-toastify';
 import { actions as langActions } from '../slices/lang.js';
-import LoginContext from './../contexts';
+
 
 const InitialPage = () => {
-   const { login, setLogin } = useContext(LoginContext);
-   //console.log(login);
 
-   //console.log(login)
 
   const dispatch = useDispatch();
   const callToast = (message) => {
@@ -64,7 +61,7 @@ const handleSubmit = async (e) => {
               localStorage.setItem('token', response.data.token);
               localStorage.setItem('user', login);
               localStorage.setItem('lang', 'ru');
-              setLogin(login);
+              //setLogin(login);
 
               dispatch(langActions.setLanguage('ru'));
               window.open('/', '_self');

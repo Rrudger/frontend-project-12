@@ -9,8 +9,6 @@ import ChatPage from './ChatPage.jsx';
 import LoginContext from './../contexts';
 
 const Chat = () => {
-  const { login, setLogin } = useContext(LoginContext);
-
   const dispatch = useDispatch();
   let token = null;
   useEffect(() => {
