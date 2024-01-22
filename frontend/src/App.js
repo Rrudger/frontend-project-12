@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -11,18 +11,18 @@ import Chat from './components/Chat.jsx';
 import NavbarHeader from './components/Navbar.jsx';
 import { actions as globalActions } from './slices/globalSlice.js';
 
-const App = () => {
-  const ContextProvider = ({ children }) => {
-  const [count, setCount] = useState(null);
+const ContextProvider = ({ children }) => {
+const [count, setCount] = useState(null);
 
-  return (
-    <LoginContext.Provider value={{ count, setCount }}>
-      {children}
-    </LoginContext.Provider>
-  );
+return (
+  <LoginContext.Provider value={{ count, setCount }}>
+    {children}
+  </LoginContext.Provider>
+);
 };
 
-const lang = useSelector((state) => state.langState.language);
+const App = () => {
+  const lang = useSelector((state) => state.langState.language);
 useEffect(() => {}, [lang]);
 
 const dispatch = useDispatch();
