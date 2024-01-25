@@ -1,5 +1,5 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 import resources from './locales/index.js';
 
 const lang = localStorage.getItem('lang') || 'ru';
@@ -15,11 +15,11 @@ i18n
       },
       en: {
         translation: resources.en.translation,
-      }
+      },
     },
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,
+    },
   });
 
-  export default i18n;
+export default i18n;

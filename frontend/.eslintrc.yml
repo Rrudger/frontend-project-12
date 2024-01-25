@@ -1,5 +1,3 @@
-parser: "@babel/eslint-parser"
-
 env:
   browser: true
   es2021: true
@@ -11,11 +9,12 @@ extends:
   - plugin:react-hooks/recommended
 
 parserOptions:
+  parser: "@babel/eslint-parser"
+  requireConfigFile: false
   ecmaFeatures:
     jsx: true
   ecmaVersion: latest
   sourceType: module
-  requireConfigFile: false
 
 plugins:
   - react

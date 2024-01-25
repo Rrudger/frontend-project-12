@@ -10,8 +10,26 @@ import {
 import { actions as langActions } from '../slices/lang.js';
 import i18n from '../i18n';
 
-const NavbarHeader = () => {
+const LangBtnsGroup = ({ radios, radioValue, handleChangeLang }) => (
+  <ButtonGroup>
+    {radios.map((radio, idx) => (
+      <ToggleButton
+        key={idx}
+        id={`${idx}-radio`}
+        type="radio"
+        variant="outline-secondary"
+        name="radio"
+        value={radio}
+        checked={radioValue === radio}
+        onChange={handleChangeLang}
+      >
+        {radio}
+      </ToggleButton>
+    ))}
+  </ButtonGroup>
+);
 
+const NavbarHeader = () => {
   const dispatch = useDispatch();
   const lang = localStorage.getItem('lang') || 'ru';
   const token = localStorage.getItem('token');
@@ -22,46 +40,24 @@ const NavbarHeader = () => {
     localStorage.clear();
     localStorage.setItem('lang', 'ru');
     window.open('/login', '_self');
-  }
+  };
 
   const handleChangeLang = (e) => {
-  setRadioValue(e.currentTarget.value);
-    localStorage.setItem('lang', e.currentTarget.value)
-     dispatch(langActions.setLanguage(e.currentTarget.value));
-     
-  }
-
-  const LangBtnsGroup = () => {
-    return (
-      <ButtonGroup>
-     {radios.map((radio, idx) => (
-       <ToggleButton
-         key={idx}
-         id={`${idx}-radio`}
-         type="radio"
-         variant='outline-secondary'
-         name="radio"
-         value={radio}
-         checked={radioValue === radio}
-         onChange={handleChangeLang}
-       >
-         {radio}
-       </ToggleButton>
-     ))}
-   </ButtonGroup>
-    )
-  }
+    setRadioValue(e.currentTarget.value);
+    localStorage.setItem('lang', e.currentTarget.value);
+    dispatch(langActions.setLanguage(e.currentTarget.value));
+  };
 
   return (
-    <Navbar className='navbar-expand-lg navbar-light shadow-sm bg-white mb-3'>
+    <Navbar className="navbar-expand-lg navbar-light shadow-sm bg-white mb-3">
       <Container>
         <Navbar.Brand href="/">
           Hexlet Chat
         </Navbar.Brand>
-        <LangBtnsGroup />
-
-
-        {token && <Button onClick={handleLogout}>{i18n.t('buttons.logOut')}</Button>}
+        <LangBtnsGroup radios={radios} radioValue={radioValue} handleChangeLang={handleChangeLang}/>
+        {token && <Button onClick={handleLogout}>
+        {i18n.t('buttons.logOut')}
+        </Button>}
       </Container>
     </Navbar>
   )

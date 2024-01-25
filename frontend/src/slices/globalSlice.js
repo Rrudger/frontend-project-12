@@ -7,7 +7,7 @@ const initialState = {
   currentChannelId: null,
   currentUser: null,
   lastChannelAddedBy: null,
-}
+};
 
 const globalReducer = createSlice({
   name: 'globalState',
@@ -29,7 +29,7 @@ const globalReducer = createSlice({
       state.lastChannelAddedBy = payload;
     },
     addMessage: (state, { payload }) => {
-      state.messages = [...state.messages, payload]
+      state.messages = [...state.messages, payload];
     },
     addChannel: (state, { payload }) => {
       state.channels = [...state.channels, payload];
@@ -42,12 +42,11 @@ const globalReducer = createSlice({
       state.channels = state.channels.map((channel) => {
         if (channel.id === payload.id) {
           return payload;
-        } else {
-          return channel;
         }
-      })
-    }
-  }
+        return channel;
+      });
+    },
+  },
 });
 
 export default globalReducer.reducer;

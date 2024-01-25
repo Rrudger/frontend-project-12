@@ -11,4 +11,4 @@ lint:
 	npx eslint --ext js,jsx --no-eslintrc --config .eslintrc.yml .
 
 run:
-	make build & npx start-server & make start
+	npx start-server & make start
