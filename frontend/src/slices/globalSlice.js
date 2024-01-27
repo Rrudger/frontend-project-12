@@ -1,4 +1,5 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { merge } from 'lodash';
 
 const globalAdapter = createEntityAdapter();
 const initialState = {
@@ -14,37 +15,31 @@ const globalReducer = createSlice({
   initialState,
 
   reducers: {
-    setStorage: (state, { payload }) => {
-      state.channels = payload.channels;
-      state.messages = payload.messages;
-      state.currentChannelId = payload.currentChannelId;
-    },
-    setCurrentChannel: (state, { payload }) => {
-      state.currentChannelId = payload;
-    },
-    setCurrentUser: (state, { payload }) => {
-      state.currentUser = payload;
-    },
-    setLastChannelAddedBy: (state, { payload }) => {
-      state.lastChannelAddedBy = payload;
-    },
-    addMessage: (state, { payload }) => {
-      state.messages = [...state.messages, payload];
-    },
-    addChannel: (state, { payload }) => {
-      state.channels = [...state.channels, payload];
-    },
+    setStorage: (state, { payload }) => merge(
+      state,
+      {
+        channels: payload.channels,
+        messages: payload.messages,
+        currentChannelId: payload.currentChannelId,
+      },
+    ),
+    setCurrentChannel: (state, { payload }) => merge(state, { currentChannelId: payload }),
+    setCurrentUser: (state, { payload }) => merge(state, { currentUser: payload }),
+    setLastChannelAddedBy: (state, { payload }) => merge(state, { lastChannelAddedBy: payload }),
+    addMessage: (state, { payload }) => merge(state, { messages: [...state.messages, payload] }),
+    addChannel: (state, { payload }) => merge(state, { channels: [...state.channels, payload] }),
     removeChannel: (state, { payload }) => {
-      state.channels = state.channels.filter((channel) => channel.id !== payload);
-      state.currentChannelId = 1;
+      const newChannelList = state.channels.filter((channel) => channel.id !== payload);
+      return merge(state, { channels: newChannelList, currentChannelId: 1 });
     },
     renameChannel: (state, { payload }) => {
-      state.channels = state.channels.map((channel) => {
+      const newChannelList = state.channels.map((channel) => {
         if (channel.id === payload.id) {
           return payload;
         }
         return channel;
       });
+      return merge(state, { channels: newChannelList });
     },
   },
 });

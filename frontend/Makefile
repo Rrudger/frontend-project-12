@@ -12,3 +12,6 @@ lint:
 
 run:
 	npx start-server & make start
+
+a:
+	npx eslint --ext js,jsx --no-eslintrc --config .eslintrc.yml src/components/ChatPage.jsx

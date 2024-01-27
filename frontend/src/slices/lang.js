@@ -12,8 +12,8 @@ const langReducer = createSlice({
 
   reducers: {
     setLanguage: (state, { payload }) => {
-      state.language = payload;
       i18n.changeLanguage(payload);
+      return { language: payload };
     },
 
   },

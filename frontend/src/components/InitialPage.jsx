@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-//import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+// import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import {
   Row,
@@ -13,151 +13,143 @@ import {
 } from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from 'axios';
-import i18n from '../i18n';
 import { toast, ToastContainer } from 'react-toastify';
+import i18n from '../i18n';
 import { actions as langActions } from '../slices/lang.js';
 
-
 const InitialPage = () => {
-
-
   const dispatch = useDispatch();
   const callToast = (message) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
-    })
-  }
+    });
+  };
 
+  const [error, setError] = useState(null);
+  const [focus, setFocus] = useState('login');
+  const [errorForm, setErrorForm] = useState(null);
 
-const schema = yup.string().required(i18n.t('toasts.fillField'));
+  const showError = (field) => (!error ? false : focus === field);
 
+  const schema = yup.string().required(i18n.t('toasts.fillField'));
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const login = formData.get('login');
-  const password = formData.get('password');
-  schema.validate(login)
-    .catch(error => {
-      document.getElementById('loginInput').focus();
-      setFocus('login');
-      setError(error.message);
-    })
-    .then((result) => {
-      if (result ) {
-        setError(null);
-        schema.validate(password)
-        .catch(error => {
-          document.getElementById('passwordInput').focus();
-          setFocus('password');
-          setError(error.message);
-        })
-        .then((result) => {
-          if (result) {
-            setError(null);
-            axios.post('/api/v1/login', { username: login, password: password })
-            .then((response) => {
-              //console.log(response)
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('user', login);
-              localStorage.setItem('lang', 'ru');
-              //setLogin(login);
-
-              dispatch(langActions.setLanguage('ru'));
-              window.open('/', '_self');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const login = formData.get('login');
+    const password = formData.get('password');
+    schema.validate(login)
+      .catch((validateError) => {
+        document.getElementById('loginInput').focus();
+        setFocus('login');
+        setError(validateError.message);
+      })
+      .then((validateResult) => {
+        if (validateResult) {
+          setError(null);
+          schema.validate(password)
+            .catch((passError) => {
+              document.getElementById('passwordInput').focus();
+              setFocus('password');
+              setError(passError.message);
             })
-            .catch((error) => {
-              const err = error.toJSON().status;
-            if (err === 401) {
-                setError(null)
-                setErrorForm('wrongUserData');
-                //callToast(i18n.t('toasts.wrongUserData'));
+            .then((result) => {
+              if (result) {
+                setError(null);
+                axios.post('/api/v1/login', { username: login, password })
+                  .then((response) => {
+                    // console.log(response)
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('user', login);
+                    localStorage.setItem('lang', 'ru');
+                    // setLogin(login);
 
-              } else  if (err === 500){
-                setError(null)
-                setErrorForm('netError');
-                callToast(i18n.t('toasts.netError'));
-
+                    dispatch(langActions.setLanguage('ru'));
+                    window.open('/', '_self');
+                  })
+                  .catch((netError) => {
+                    const err = netError.toJSON().status;
+                    if (err === 401) {
+                      setError(null);
+                      setErrorForm('wrongUserData');
+                      // callToast(i18n.t('toasts.wrongUserData'));
+                    } else if (err === 500) {
+                      setError(null);
+                      setErrorForm('netError');
+                      callToast(i18n.t('toasts.netError'));
+                    }
+                  });
+              } else {
+                console.log('odd error');
               }
-
-            })
-
-
-        } else  {
-          console.log('odd error')
+            });
         }
-        })
-      }
-    })
-  }
+      });
+  };
 
-
-
-
-useEffect(() => {
-  document.getElementById(`loginInput`).focus();
- document.addEventListener("click", function () {
-  if (focus) setFocus(null);
-});
-}, []);
-
-const [error, setError] = useState(null);
-const [focus, setFocus] = useState('login');
-const [errorForm, setErrorForm] = useState(null);
-
-const showError = (field) => {
-  return !error ? false : focus !== field ? false : true;
-}
-
-
-
+  useEffect(() => {
+    document.getElementById('loginInput').focus();
+    document.addEventListener('click', () => {
+      if (focus) setFocus(null);
+    });
+  });
 
   return (
-    <div className='container-fluid h-100'>
-      <Row className='justify-content-center align-content-center h-100'>
-        <Col className='col-12 col-md-8 col-xxl-6'>
-          <Card className='shadow-sm'>
-            <Card.Body as={Row} className='p-5'>
-              <Col className='col-12 col-md-6 d-flex justify-content-center align-content-center'>
-                <Image src="/assets/avatar.jpg" id='mainPageImage' className='align-self-center rounded-circle' alt={i18n.t('headers.logIn')}/>
+    <div className="container-fluid h-100">
+      <Row className="justify-content-center align-content-center h-100">
+        <Col className="col-12 col-md-8 col-xxl-6">
+          <Card className="shadow-sm">
+            <Card.Body as={Row} className="p-5">
+              <Col className="col-12 col-md-6 d-flex justify-content-center align-content-center">
+                <Image src="/assets/avatar.jpg" id="mainPageImage" className="align-self-center rounded-circle" alt={i18n.t('headers.logIn')} />
               </Col>
-              <Col className='col-12 col-md-6 mt-3 mt-mb-0'>
-              <h1 className='mb-4 text-center'>{i18n.t('headers.logIn')}</h1>
+              <Col className="col-12 col-md-6 mt-3 mt-mb-0">
+                <h1 className="mb-4 text-center">{i18n.t('headers.logIn')}</h1>
 
-              <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
 
-                <FloatingLabel controlId="loginInput"
-                label={i18n.t('other.login')}
-                className="mb-3">
-                <Form.Control onChange={() => {if(focus) setFocus(null)}} name='login' className={(errorForm && errorForm === 'wrongUserData') && 'is-invalid'} placeholder="" />
-                { showError('login') &&
-                <Toast className='d-inline-flex position-fixed z-3 border border-danger'>
+                  <FloatingLabel
+                    controlId="loginInput"
+                    label={i18n.t('other.login')}
+                    className="mb-3"
+                  >
+                    <Form.Control onChange={() => { if (focus) setFocus(null); }} name="login" className={(errorForm && errorForm === 'wrongUserData') && 'is-invalid'} placeholder="" />
+                    { showError('login')
+                && (
+                <Toast className="d-inline-flex position-fixed z-3 border border-danger">
                   <Toast.Body>{error}</Toast.Body>
-                </Toast>}
-              </FloatingLabel>
+                </Toast>
+                )}
+                  </FloatingLabel>
 
-              <FloatingLabel controlId="passwordInput"
-              label={i18n.t('other.password')}
-              className="mb-4">
-              <Form.Control onChange={() => {if(focus) setFocus(null)}} name='password' className={(errorForm && errorForm === 'wrongUserData') && 'is-invalid'} placeholder="" />
-              { showError('password') &&
-              <Toast className='d-inline-flex position-fixed z-3 border border-danger'>
+                  <FloatingLabel
+                    controlId="passwordInput"
+                    label={i18n.t('other.password')}
+                    className="mb-4"
+                  >
+                    <Form.Control onChange={() => { if (focus) setFocus(null); }} name="password" className={(errorForm && errorForm === 'wrongUserData') && 'is-invalid'} placeholder="" />
+                    { showError('password')
+              && (
+              <Toast className="d-inline-flex position-fixed z-3 border border-danger">
                 <Toast.Body>{error}</Toast.Body>
-              </Toast>}
-              { (errorForm && errorForm === 'wrongUserData') &&
-              <Toast className='d-inline-flex position-fixed z-3 text-white bg-danger border border-danger'>
+              </Toast>
+              )}
+                    { (errorForm && errorForm === 'wrongUserData')
+              && (
+              <Toast className="d-inline-flex position-fixed z-3 text-white bg-danger border border-danger">
                 <Toast.Body>{i18n.t('toasts.wrongUserData')}</Toast.Body>
-              </Toast>}
-            </FloatingLabel>
+              </Toast>
+              )}
+                  </FloatingLabel>
 
-      <Button variant="outline-primary" className='mb-3 w-100' type="submit">
-        {i18n.t('buttons.logIn')}
-      </Button>
-    </Form>
+                  <Button variant="outline-primary" className="mb-3 w-100" type="submit">
+                    {i18n.t('buttons.logIn')}
+                  </Button>
+                </Form>
               </Col>
             </Card.Body>
-            <Card.Footer className='p-4'>
-              <div className='text-center'>
+            <Card.Footer className="p-4">
+              <div className="text-center">
                 <span>{i18n.t('other.createAcc1')}</span>
                 <a href="/signup">{i18n.t('other.createAcc2')}</a>
               </div>
@@ -169,7 +161,7 @@ const showError = (field) => {
       <ToastContainer />
     </div>
 
-  )
+  );
 };
 
 export default InitialPage;

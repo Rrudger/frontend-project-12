@@ -7,14 +7,15 @@ import {
   ToggleButton,
   Navbar,
 } from 'react-bootstrap';
+import { uniqueId } from 'lodash';
 import { actions as langActions } from '../slices/lang.js';
 import i18n from '../i18n';
 
-const LangBtnsGroup = ({ radios, radioValue, handleChangeLang }) => (
+const LaBtnsGroup = ({ radios, radioValue, handleChangeLang }) => (
   <ButtonGroup>
     {radios.map((radio, idx) => (
       <ToggleButton
-        key={idx}
+        key={uniqueId()}
         id={`${idx}-radio`}
         type="radio"
         variant="outline-secondary"
@@ -54,13 +55,16 @@ const NavbarHeader = () => {
         <Navbar.Brand href="/">
           Hexlet Chat
         </Navbar.Brand>
-        <LangBtnsGroup radios={radios} radioValue={radioValue} handleChangeLang={handleChangeLang}/>
-        {token && <Button onClick={handleLogout}>
-        {i18n.t('buttons.logOut')}
-        </Button>}
+        <LaBtnsGroup radios={radios} radioValue={radioValue} handleChangeLang={handleChangeLang} />
+        {token
+          && (
+          <Button onClick={handleLogout}>
+            {i18n.t('buttons.logOut')}
+          </Button>
+          )}
       </Container>
     </Navbar>
-  )
+  );
 };
 
 export default NavbarHeader;
