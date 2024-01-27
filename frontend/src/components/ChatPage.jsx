@@ -124,8 +124,8 @@ const ChatPage = () => {
       });
   };
 
-  const handleDeleteChannel = (id) => () => {
-    // e.preventDefault();
+  const handleDeleteChannel = (id) => (e) => {
+    e.preventDefault();
     socket.emit('removeChannel', { id });
     handleCloseModal();
     callToast(i18n.t('toasts.channelDeleted'));
