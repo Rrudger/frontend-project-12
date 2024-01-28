@@ -14,7 +14,7 @@ build:
 	npm run build
 
 start:
-	make start-frontend & make start-beckend
+	make start-frontend & make start-backend
 
 run-app:
 	make buid & make start
