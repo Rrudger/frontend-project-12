@@ -2,3 +2,4 @@
 dist
 build
 src/AppOld.js
+src/slices/globalSlice.js
