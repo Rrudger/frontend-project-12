@@ -18,7 +18,7 @@ const Chat = () => {
         },
       })
         .then((response) => {
-          dispatch(globalActions.setCurrentUser(localStorage.getItem('user')));
+          dispatch(globalActions.setCurrentUser(localStorage.getItem('login')));
           dispatch(globalActions.setStorage(response.data));
         })
         .catch(() => console.log('error'));

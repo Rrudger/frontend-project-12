@@ -29,8 +29,8 @@ const globalReducer = createSlice({
     addMessage: (state, { payload }) => merge(state, { messages: [...state.messages, payload] }),
     addChannel: (state, { payload }) => merge(state, { channels: [...state.channels, payload] }),
     removeChannel: (state, { payload }) => {
-      /*const newChannelList = state.channels.filter((channel) => channel.id !== payload);
-      return merge(state, { channels: newChannelList, currentChannelId: 1 });*/
+      //const newChannelList = state.channels.filter((channel) => channel.id !== payload);
+      //return merge(state, { channels: [...newChannelList]});
       state.channels = state.channels.filter((channel) => channel.id !== payload);
       state.currentChannelId = 1;
       //Не работает в правильном варианте
