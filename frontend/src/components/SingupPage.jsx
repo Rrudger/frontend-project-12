@@ -115,6 +115,7 @@ const SingupPage = () => {
                     className={formik.errors.password && formik.touched.password
                       ? 'is-invalid' : ''}
                   />
+
                 </FloatingLabel>
                 {formik.errors.password && formik.touched.password
                   ? <ToastError errorText={formik.errors.password} />

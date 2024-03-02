@@ -190,8 +190,8 @@ const ChatPage = () => {
                     <span className="visually-hidden">{i18n.t('other.channelControlLabel')}</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={handleShowModal('delete', channel.id)}>Удалить</Dropdown.Item>
-                    <Dropdown.Item onClick={handleShowModal('rename', channel.id)}>Переименовать</Dropdown.Item>
+                    <Dropdown.Item onClick={handleShowModal('delete', channel.id)}>{i18n.t('buttons.delete')}</Dropdown.Item>
+                    <Dropdown.Item onClick={handleShowModal('rename', channel.id)}>{i18n.t('buttons.rename')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               )}

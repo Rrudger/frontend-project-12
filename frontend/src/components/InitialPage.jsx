@@ -60,7 +60,7 @@ const InitialPage = () => {
                   .then((response) => {
                     // console.log(response)
                     localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('user', login);
+                    localStorage.setItem('login', login);
                     localStorage.setItem('lang', 'ru');
                     // setLogin(login);
 
